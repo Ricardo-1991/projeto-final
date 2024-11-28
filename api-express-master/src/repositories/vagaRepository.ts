@@ -1,4 +1,4 @@
-const Vaga = require('../models/vaga');
+import Vaga from '../models/vaga';
 
 async function findAll() {
   try {
@@ -8,7 +8,7 @@ async function findAll() {
   }
 }
 
-async function findById(id) {
+async function findById(id: string) {
   try {
     return await Vaga.findByPk(id);
   } catch (error) {
@@ -16,7 +16,7 @@ async function findById(id) {
   }
 }
 
-async function create({ titulo, descricao, dataCadastro, telefone, status, empresa }) {
+async function create({ titulo, descricao, dataCadastro, telefone, status, empresa }: { titulo: string; descricao: string; dataCadastro: Date; telefone: string; status: string; empresa: string }) {
   try {
     return await Vaga.create({ titulo, descricao, dataCadastro, telefone, status, empresa });
   } catch (error) {
@@ -24,7 +24,7 @@ async function create({ titulo, descricao, dataCadastro, telefone, status, empre
   }
 }
 
-async function update(id, { titulo, descricao, dataCadastro, telefone, status, empresa }) {
+async function update(id: string, { titulo, descricao, dataCadastro, telefone, status, empresa }: { titulo: string; descricao: string; dataCadastro: Date; telefone: string; status: string; empresa: string }) {
   try {
     const vaga = await vaga.findByPk(id);
     if (vaga) {
@@ -43,7 +43,7 @@ async function update(id, { titulo, descricao, dataCadastro, telefone, status, e
   }
 }
 
-async function remove(id) {
+async function remove(id: string) {
   try {
     const job = await Vaga.findByPk(id);
     if (job) {
@@ -56,10 +56,4 @@ async function remove(id) {
   }
 }
 
-module.exports = {
-  findAll,
-  findById,
-  create,
-  update,
-  remove,
-};
+export default { findAll, findById, create, remove, update };

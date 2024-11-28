@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const vagaRepository = require('../repositories/vagaRepository');
+import vagaRepository from '../repositories/vagaRepository';
 
 // Retornas todas as vagas
 router.get('/', async (req, res) => {
@@ -64,4 +64,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

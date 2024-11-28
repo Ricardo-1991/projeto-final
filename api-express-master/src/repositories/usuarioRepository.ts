@@ -1,18 +1,18 @@
-const Usuario = require('../models/usuario');
+import Usuario from "../models/usuario";
 
 async function findAll() {
   return await Usuario.findAll();
 }
 
-async function findById(id) {
+async function findById(id: string) {
   return await Usuario.findByPk(id);
 }
 
-async function create({ nome, email, senha }) {
+async function create({ nome, email, senha }: { nome: string; email: string; senha: string} ) {
   return await Usuario.create({ nome, email, senha });
 }
 
-async function remove(id) {
+async function remove(id: string) {
   const user = await Usuario.findByPk(id);
   if (user) {
     await user.destroy();
@@ -21,7 +21,10 @@ async function remove(id) {
   return null;
 }
 
-async function update(id, { nome, email, senha }) {
+async function update(id: string, { nome, email, senha }: {
+  nome: string;
+  email: string;
+  senha: string;}) {
   const usuario = await Usuario.findByPk(id);
   if (usuario) {
     usuario.nome = nome;
@@ -35,10 +38,4 @@ async function update(id, { nome, email, senha }) {
 
 
 
-module.exports = {
-  findAll,
-  findById,
-  create,
-  update,
-  remove,
-};
+export default { findAll, findById, create, remove, update };

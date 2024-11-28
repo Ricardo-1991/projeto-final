@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+import sequelize from "../config/database";
+import { VagasModel } from "../interface/vagas.interface";
 
-const Vaga = sequelize.define('Vaga', {
+const Vaga = sequelize.define<VagasModel>('Vaga', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -33,4 +34,4 @@ const Vaga = sequelize.define('Vaga', {
   },
 });
 
-module.exports = Vaga;
+export default Vaga;
