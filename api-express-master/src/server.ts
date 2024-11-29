@@ -1,20 +1,19 @@
-import express, { Response, Request } from "express";
+import express, { Response, Request, NextFunction } from "express";
 import sequelize from "./config/database";
-import { errorHandler } from "./middlewares/errors.middleware";
 import usuarioRoutes from "./routes/usuarios.route";
 import vagasRoutes from "./routes/vagas.route";
+import { CustomError } from "./interfaces/customError";
 
 const app = express();
 app.use(express.json());
 
-app.use((req: Request, res: Response, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
 
-// Sincronizar o banco de dados
 sequelize
   .sync()
   .then(() => {
@@ -24,11 +23,18 @@ sequelize
     console.error("Unable to synchronize the database:", err);
   });
 
-// Usar as rotas importadas
+
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/vagas", vagasRoutes);
 
-app.use(errorHandler);
+app.use((error: CustomError, request: Request , response: Response, next: NextFunction) => {
+  console.log(error)
+  const status = error.status || 500
+  const message = error.message || "Um erro ocorreu."
+  const data = error.data
+  response.status(status).json({message, data})
+})
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 import sequelize from "../config/database";
-import { VagasModel } from "../interface/vagas.interface";
+import { VagasModel } from "../interfaces/vagas.interface";
 
 const Vaga = sequelize.define<VagasModel>('Vaga', {
   id: {
