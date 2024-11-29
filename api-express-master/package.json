@@ -9,13 +9,14 @@
   "author": "Jeferson",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^4.21.1",
     "nodemon": "^3.1.4",
-    "sequelize": "^6.37.3",
+    "sequelize": "^6.37.5",
     "sqlite3": "^5.1.7",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   }
