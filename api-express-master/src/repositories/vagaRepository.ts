@@ -4,7 +4,10 @@ async function findAll() {
   try {
     return await Vaga.findAll();
   } catch (error) {
-    throw new Error('Error fetching all jobs: ' + error.message);
+    if(error instanceof Error){
+      throw new Error('Error fetching all jobs: ' + error.message);
+    }
+    throw new Error('An unknown error occurred');
   }
 }
 
@@ -12,7 +15,10 @@ async function findById(id: string) {
   try {
     return await Vaga.findByPk(id);
   } catch (error) {
-    throw new Error('Error fetching job by id: ' + error.message);
+    if(error instanceof Error) {
+      throw new Error('Error fetching job by id: ' + error.message);
+    }
+    throw new Error('An unknown error occurred');
   }
 }
 
@@ -20,13 +26,16 @@ async function create({ titulo, descricao, dataCadastro, telefone, status, empre
   try {
     return await Vaga.create({ titulo, descricao, dataCadastro, telefone, status, empresa });
   } catch (error) {
-    throw new Error('Error creating job: ' + error.message);
+    if(error instanceof Error) {
+      throw new Error('Error creating job: ' + error.message);
+    }
+    throw new Error('An unknown error occurred');
   }
 }
 
 async function update(id: string, { titulo, descricao, dataCadastro, telefone, status, empresa }: { titulo: string; descricao: string; dataCadastro: Date; telefone: string; status: string; empresa: string }) {
   try {
-    const vaga = await vaga.findByPk(id);
+    const vaga = await Vaga.findByPk(id);
     if (vaga) {
       vaga.titulo = titulo;
       vaga.descricao = descricao;
@@ -39,7 +48,10 @@ async function update(id: string, { titulo, descricao, dataCadastro, telefone, s
     }
     return null;
   } catch (error) {
-    throw new Error('Error updating job: ' + error.message);
+    if(error instanceof Error){
+      throw new Error('Error updating job: ' + error.message);
+    }
+    throw new Error('An unknown error occurred');
   }
 }
 
@@ -52,7 +64,10 @@ async function remove(id: string) {
     }
     return null;
   } catch (error) {
-    throw new Error('Error deleting job: ' + error.message);
+    if( error instanceof Error){
+      throw new Error('Error deleting job: ' + error.message);
+    }
+    throw new Error('An unknown error occurred');
   }
 }
 
