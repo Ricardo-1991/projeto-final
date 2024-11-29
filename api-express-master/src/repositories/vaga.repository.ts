@@ -1,4 +1,4 @@
-import Vaga from '../models/vaga';
+import Vaga from '../models/vaga.model';
 
 async function findAll() {
   try {

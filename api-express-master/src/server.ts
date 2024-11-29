@@ -1,7 +1,8 @@
 import express from "express";
 import sequelize from "./config/database";
-const usuariosRoutes = require("./routes/usuarios");
-const vagasRoutes = require("./routes/vagas");
+import { errorHandler } from "./middlewares/errors.middleware";
+import usuarioRoutes from "./routes/usuarios.route";
+import vagasRoutes from "./routes/vagas.route";
 
 const app = express();
 app.use(express.json());
@@ -17,8 +18,10 @@ sequelize
   });
 
 // Usar as rotas importadas
-app.use("/api/usuarios", usuariosRoutes);
+app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/vagas", vagasRoutes);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
