@@ -23,7 +23,7 @@ router.get('/', vagasController.findAll);
 router.get('/:id', vagasController.findById);
 
 // Cria uma nova vaga
-router.post('/', validator(jobSchema) ,vagasController.create);
+router.post('/create', validator(jobSchema) ,vagasController.create);
 
 // Faz Update de uma vaga
 router.put('/:id', validator(jobSchema),vagasController.update);
