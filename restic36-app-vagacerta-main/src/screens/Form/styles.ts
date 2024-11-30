@@ -15,6 +15,12 @@ export const Container = styled.View`
   background-color: ${({theme})=>theme.COLORS.WHITE};
 `;
 
+export const Container2 = styled.View`
+  align-items: left;
+  width: 100%;
+  gap: 4px;
+`;
+
 export const Form = styled.View`
   flex: 1;
   gap: 16px;
@@ -44,4 +50,21 @@ export const TextLink = styled.Text`
   font-weight: 700;
   text-align: center;
   color: ${({theme})=>theme.COLORS.GRAY_03};
+`;
+
+
+export const Label = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 16px;
+  text-align: left;
+  color: ${({theme})=>theme.COLORS.GREEN};
+`;
+
+export const Field = styled.TextInput`
+    border: 1px solid ${({theme})=>theme.COLORS.GRAY_02};
+    border-radius: 8px;
+    padding: 16px;
+    background-color: ${({theme})=>theme.COLORS.GRAY_01};
+    width: 100%;
 `;
