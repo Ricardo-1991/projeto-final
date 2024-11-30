@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { CustomError } from "../interfaces/customError";
 import usuarioRepository from "../repositories/usuario.repository";
+import { usuarioDTO } from '../dtos/usuario.dto';
 
 async function findAll(){
     return await usuarioRepository.findAll();
@@ -22,14 +23,14 @@ async function findById(id: string){
       }
 }
 
-async function create(nome: string, email: string, senha: string) {
+async function create(newUser: usuarioDTO) {
     try {
-        const userExists = await usuarioRepository.findByEmail(email);
+        const userExists = await usuarioRepository.findByEmail(newUser.email);
         if (userExists) {
           throw new CustomError("Este email já está em uso no sistema.", 400);
         }
-        const hashedPassword = await bcrypt.hash(senha, 10);
-        return await usuarioRepository.create(nome, email, hashedPassword);
+        const hashedPassword = await bcrypt.hash(newUser.senha, 10);
+        return await usuarioRepository.create(newUser.nome, newUser.email, hashedPassword);
 
     }catch(error) {
      if (error instanceof CustomError) {
@@ -39,15 +40,15 @@ async function create(nome: string, email: string, senha: string) {
       }
 }
 
-async function update(id: string, nome: string, email: string, senha: string) {
+async function update(id: string, newUser: usuarioDTO) {
     try {
         const userExists = await usuarioRepository.findById(id);
         if(!userExists) {
           throw new CustomError("Usuário nao encontrado", 404);
         }
-        userExists.nome = nome;
-        userExists.email = email;
-        userExists.senha = await bcrypt.hash(senha, 10);
+        userExists.nome = newUser.nome;
+        userExists.email = newUser.email;
+        userExists.senha = await bcrypt.hash(newUser.senha, 10);
 
         const updatedUser = await usuarioRepository.update(userExists);
         return updatedUser;
