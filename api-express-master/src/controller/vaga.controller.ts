@@ -1,42 +1,44 @@
 import {Request, Response} from "express";
-import vagaRepository from "../repositories/vaga.repository";
+import vagaService from "../services/vaga.service";
+import { CustomError } from "../interfaces/customError";
 
 
 const findAll = async (req: Request, res: Response) => {
-    const jobs = await vagaRepository.findAll();
+    const jobs = await vagaService.findAll();
     res.json({ message: 'Listagem de vagas.', jobs });
 };
 
 const findById = async (req: Request, res: Response) => {
-    const job = await vagaRepository.findById(req.params.id);
-    if (job) {
-        res.json({ message: 'Vaga encontrada.', job });
-    } else {
-        res.status(404).json({ error: 'Vaga não encontrada.' });
+    const params = req.params.id;
+    const job = await vagaService.findById(params);
+    if (!job) {
+        throw new CustomError("Vaga nao encontrada", 404);
     }
+    res.status(200).json({ message: 'Vaga encontrada.', job });
 };
 
 const create = async (req: Request, res: Response) => {
-    const job = await vagaRepository.create(req.body);
+    const job = await vagaService.create(req.body);
     res.status(201).json({ message: 'Vaga criada.', job });
 };
 
 const update = async (req: Request, res: Response) => {
-    const job = await vagaRepository.update(req.params.id, req.body);
-    if (job) {
-        res.json({ message: 'Vaga atualizada.', job });
-    } else {
-        res.status(404).json({ error: 'Vaga não encontrada.' });
+    const params = req.params.id;
+    const job = await vagaService.update(params, req.body);
+    if (!job) {
+        throw new CustomError("Vaga nao encontrada", 404);
     }
+    res.status(200).json({ message: 'Vaga atualizada.' });
 };
 
 const remove = async (req: Request, res: Response) => {
-    const job = await vagaRepository.remove(req.params.id);
-    if (job) {
-        res.json({ message: 'Vaga deletada.', job });
-    } else {
-        res.status(404).json({ error: 'Vaga não encontrada.' });
+    const params = req.params.id;
+    const job = await vagaService.remove(params);
+    if (!job) {
+        throw new CustomError("Vaga nao encontrada", 404);
     }
+    res.status(200).json({ message: 'Vaga deletada.', job });
+    
 };
 
 

@@ -8,29 +8,21 @@ async function findById(id: string) {
   return await Usuario.findByPk(id);
 }
 
-async function create({ nome, email, senha }: { nome: string; email: string; senha: string }) {
+async function findByEmail(email: string) {
+  return await Usuario.findOne({ where: { email } });
+}
+
+async function create( nome: string, email: string, senha: string) {
+  console.log(nome, email, senha)
   return await Usuario.create({ nome, email, senha });
 }
 
-async function remove(id: string) {
-  const user = await Usuario.findByPk(id);
-  if (user) {
-    await user.destroy();
-    return user;
-  }
-  return null;
+async function remove(userExists: any) {
+  return await userExists.destroy();
 }
 
-async function update(id: string, { nome, email, senha }: { nome: string; email: string; senha: string }) {
-  const usuario = await Usuario.findByPk(id);
-  if (usuario) {
-    usuario.nome = nome;
-    usuario.email = email;
-    usuario.senha = senha;
-    await usuario.save();
-    return usuario;
-  }
-  return null;
+async function update(userExists: any) {
+  return await userExists.save();
 }
 
-export default { findAll, findById, create, remove, update };
+export default { findAll, findById, findByEmail,  create, remove, update };
