@@ -21,3 +21,9 @@ export const Field = styled.TextInput`
     background-color: ${({theme})=>theme.COLORS.GRAY_01};
     width: 100%;
 `;
+
+export const ErrorMessage = styled.Text`
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+`; // Novo estilo para mensagens de erro
