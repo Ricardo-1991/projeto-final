@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
-import usuarioRepository from "../repositories/usuario.repository";
 import { CustomError } from "../interfaces/customError";
+import UsuarioService from "../services/usuario.service";
 
 const findAll = async (req: Request, res: Response) => {
-  const users = await usuarioRepository.findAll();
+  const users = await UsuarioService.findAll();
   res.json({ message: 'Listagem de usuários.', users });
 };
 
 const findById = async (req: Request, res: Response) => {
-  const user = await usuarioRepository.findById(req.params.id);
+  const params = req.params.id;
+  const user = await UsuarioService.findById(params);
   if (!user) {
     throw new CustomError("Usuário não encontrado.", 404);
   }
@@ -16,12 +17,15 @@ const findById = async (req: Request, res: Response) => {
 };
 
 const createUser = async (req: Request, res: Response) => {
-  const user = await usuarioRepository.create(req.body);
+  const { nome, email, senha } = req.body;
+  const user = await UsuarioService.create(nome, email, senha);
   res.status(201).json({ message: 'Usuário criado.', user });
 };
 
 const updateUser = async (req: Request, res: Response) => {
-  const user = await usuarioRepository.update(req.params.id, req.body);
+  const params = req.params.id;
+  const { nome, email, senha } = req.body;
+  const user = await UsuarioService.update(params, nome, email, senha);
   if (!user) {
     throw new CustomError("Usuário não encontrado.", 404);
   }
@@ -29,7 +33,8 @@ const updateUser = async (req: Request, res: Response) => {
 };
 
 const deleteUser = async (req: Request, res: Response) => {
-  const user = await usuarioRepository.remove(req.params.id);
+  const params = req.params.id;
+  const user = await UsuarioService.remove(params);
   if (!user) {
     throw new CustomError("Usuário não encontrado.", 404);
   }
