@@ -2,6 +2,7 @@ import express, { Response, Request, NextFunction } from "express";
 import sequelize from "./config/database";
 import usuarioRoutes from "./routes/usuarios.route";
 import vagasRoutes from "./routes/vagas.route";
+import authRoutes from "./routes/auth.route";
 import { CustomError } from "./interfaces/customError";
 
 const app = express();
@@ -26,6 +27,7 @@ sequelize
 
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/vagas", vagasRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use((error: CustomError, request: Request , response: Response, next: NextFunction) => {
   console.log(error)

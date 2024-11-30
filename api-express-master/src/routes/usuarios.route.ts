@@ -21,7 +21,7 @@ router.get('/', userController.findAll);
 router.get('/:id', userController.findById);
 
 // Create a new user
-router.post('/', validator(userSchema), userController.createUser);
+router.post('/create', validator(userSchema), userController.createUser);
 
 // Update a user
 router.put('/:id', validator(userSchema), userController.updateUser);
