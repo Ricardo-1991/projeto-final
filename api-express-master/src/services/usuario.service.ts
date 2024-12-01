@@ -4,7 +4,17 @@ import usuarioRepository from "../repositories/usuario.repository";
 import { usuarioDTO } from '../dtos/usuario.dto';
 
 async function findAll(){
-    return await usuarioRepository.findAll();
+    try {
+      const users = await usuarioRepository.findAll();
+      if(!users) {
+        throw new CustomError("Usuários nao encontrados", 404);
+      }
+    }catch (error) {
+      if (error instanceof CustomError) {
+        throw error; 
+      }
+      throw new CustomError("Erro ao buscar usuário", 500);
+    }
 }
 
 async function findById(id: string){
