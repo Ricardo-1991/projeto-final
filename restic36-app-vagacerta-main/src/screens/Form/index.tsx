@@ -4,11 +4,8 @@ import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import api from '../../services/api';
 import axios from 'axios';
 import BGTop from '../../assets/BGTop.png';
-import Logo from '../../components/Logo';
 import {Wrapper, Container} from './styles';
 
-
-// Definir o tipo do estado de erros
 interface FormErrors {
     nome?: string;
     email?: string;
@@ -16,13 +13,11 @@ interface FormErrors {
 }
 
 const MyForm = () => {
-    // Estados para gerenciar os campos do formulário
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [errors, setErrors] = useState<FormErrors>({});
 
-    // Validação dos campos
     const validateFields = () => {
         const newErrors: FormErrors = {};
     
@@ -34,7 +29,6 @@ const MyForm = () => {
             newErrors.email = 'E-mail inválido.';
         }
     
-        // Validação de senha
         if (!senha || typeof senha !== 'string' || senha.length < 8) {
             newErrors.senha = 'A senha deve ter pelo menos 8 caracteres.';
         } else if (!/[A-Z]/.test(senha)) {
@@ -58,37 +52,26 @@ const MyForm = () => {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
-                    console.log('Erro 422: ', error.response.data); // Verifique a resposta de erro
-                    Alert.alert('Erro', `Erro 422: ${error.response.data.message || 'Verifique os dados enviados.'}`);
+                    Alert.alert(`${error.response.data.message || 'Verifique os dados enviados.'}`);
                 } else {
                     Alert.alert('Erro', error.message || 'Ocorreu um erro ao enviar os dados.');
                 }
-            } else {
-                console.error(error);
             }
         }
     };
 
-    // Lidar com a submissão do formulário
     const handleSubmit = () => {
         const validationErrors = validateFields();
-    
         if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors); // Se houver erros, exibe-os
+            setErrors(validationErrors);
         } else {
-            setErrors({}); // Limpa os erros
-    
-            // Verifique os valores de nome, email e senha antes de enviar
-            console.log('Enviando dados:', { nome, email, senha });
-    
-            // Verifique se os dados são válidos antes de enviar
+            setErrors({}); 
             if (!nome || !email || !senha) {
                 Alert.alert('Erro', 'Preencha todos os campos corretamente.');
                 return;
             }
-    
             const formData = { nome, email, senha };
-            sendDataToAPI(formData); // Envia os dados para a API
+            sendDataToAPI(formData);
         }
     };
 

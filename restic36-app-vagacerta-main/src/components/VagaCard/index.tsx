@@ -20,7 +20,7 @@ export default function VagaCard({id, title, dataCreated, company}: Data) {
     const navigation = useNavigation<Props['navigation']>();
     
     return (
-        <Container onPress={() => navigation.navigate('Details', { id })}>
+        <Container onPress={() => navigation.navigate('DetailsScreen', { id })}>
             <Content>
                 <Title numberOfLines={1}>{title}</Title>
                 <Data>{dataCreated}</Data>

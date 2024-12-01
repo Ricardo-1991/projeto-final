@@ -12,13 +12,14 @@ import FormScreen  from './src/screens/Form';
 import List  from './src/screens/List';
 import Profile  from './src/screens/Profile';
 import Details  from './src/screens/Details';
+import { AuthProvider } from './src/context/auth.context';
+import { RootNavigator } from './src/screens/navigation.root';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 
 function Auth(){
-  
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -60,16 +61,14 @@ function Auth(){
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <StatusBar style="auto" />
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="FormScreen" component={FormScreen} />
-          <Stack.Screen name="Auth" component={Auth} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <StatusBar style="auto" />
+        <NavigationContainer>
+          <RootNavigator/>  
+        </NavigationContainer>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
