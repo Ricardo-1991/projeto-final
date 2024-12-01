@@ -1,23 +1,30 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect, useContext } from 'react'; 
 import { Image, FlatList, View, Text } from 'react-native';
 import { Wrapper,Container, ListContainer, TextVagas } from './styles';
 import BGTop from '../../assets/BGTop.png';
 import Logo from '../../components/Logo';
 import VagaCard from '../../components/VagaCard';
 import api from '../../services/api';
+import { Button } from '../../components/Button';
+import { AuthContext } from '../../context/auth.context';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigationProp } from '../../utils/Types';
+import { NavBar } from '../../components/NavBar';
 
 
 export default function List() {
 
   const [vagas, setVagas] = useState<any[]>([]); 
   const [loading, setLoading] = useState<boolean>(true); 
+  const {user, logout} = useContext(AuthContext);
+  
+  const navigation = useNavigation< RootNavigationProp>();
 
   useEffect(() => {
    
     const fetchVagas = async () => {
       try {
         const response = await api.get('/vagas'); 
-        setVagas(response.data); 
       } catch (error) {
         console.error('Erro ao carregar as vagas:', error);
       } finally {
@@ -74,12 +81,15 @@ export default function List() {
         }
       ]
 
+    const handleLogout = () => {
+        logout();
+        navigation.navigate('LoginScreen')
+    }
     return (
         <Wrapper>
             <Image source={BGTop} style={{maxHeight: 86}}/>
-
+            <NavBar handleOnPress={handleLogout} userName={user?.name} />
             <Container>
-
                 <Logo />
                 <TextVagas>{DATA.length} vagas encontradas!</TextVagas>
                 <ListContainer>

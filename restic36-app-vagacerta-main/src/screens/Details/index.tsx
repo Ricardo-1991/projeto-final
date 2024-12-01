@@ -14,10 +14,11 @@ import {
 import Logo from '../../components/Logo';
 import theme from '../../theme';
 import { Button } from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigationProp } from '../../utils/Types';;
 
-
-export default function Details({route, navigation }) {
-
+export default function Details({route }) {
+    const navigation = useNavigation< RootNavigationProp>();
     const {id} = route.params;
 
     return (

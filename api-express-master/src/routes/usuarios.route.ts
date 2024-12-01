@@ -5,9 +5,9 @@ import {z} from 'zod';
 import {validator} from '../middlewares/validator'
 
 const userSchema = z.object({
-    nome: z.string().min(2, {message: "Seu nome precisa ter pelo menos 2 caracteres"}),
+    name: z.string().min(2, {message: "Seu nome precisa ter pelo menos 2 caracteres"}),
     email: z.string().email({message: "formato de e-mail inválido"}),
-    senha: z.string()
+    password: z.string()
         .min(8, { message: "Senha deve ter no mínimo 8 caracteres." })
         .regex(/[A-Z]/, { message: "Senha deve conter pelo menos uma letra maiúscula." })
         .regex(/[0-9]/, { message: "Senha deve conter pelo menos um número." })

@@ -6,7 +6,7 @@ export interface UsuarioModel
     InferCreationAttributes<UsuarioModel>
   > {
   id: CreationOptional<string>;
-  nome: string;
+  name: string;
   email: string;
-  senha: string;
+  password: string;
 }
