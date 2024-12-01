@@ -29,4 +29,3 @@ export const TextVagas = styled.Text`
   text-align: center;
   color: ${({theme})=>theme.COLORS.BLACK};
 `;
-

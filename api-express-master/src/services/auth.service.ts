@@ -10,7 +10,7 @@ async function signIn(email: string, password: string) {
       throw new CustomError("Usuário não encontrado", 404);
     }
 
-    const isPasswordValid = await bcrypt.compare(password, foundUser.senha);
+    const isPasswordValid = await bcrypt.compare(password, foundUser.password);
     if (!isPasswordValid) {
       throw new CustomError("Email ou senha inválidos.", 401);
     }
@@ -30,10 +30,10 @@ async function signIn(email: string, password: string) {
     );
 
     const user = {
-      name: foundUser.nome,
+      id: foundUser.id,
+      name: foundUser.name,
       email: foundUser.email,
     };
-
     return {
       token,
       user,
