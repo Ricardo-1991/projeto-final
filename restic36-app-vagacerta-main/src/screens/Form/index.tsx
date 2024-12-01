@@ -7,45 +7,44 @@ import BGTop from '../../assets/BGTop.png';
 import {Wrapper, Container} from './styles';
 
 interface FormErrors {
-    nome?: string;
+    name?: string;
     email?: string;
-    senha?: string;
+    password?: string;
 }
 
 const MyForm = () => {
-    const [nome, setNome] = useState('');
+    const [name, setNome] = useState('');
     const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
+    const [password, setSenha] = useState('');
     const [errors, setErrors] = useState<FormErrors>({});
 
     const validateFields = () => {
         const newErrors: FormErrors = {};
     
-        if (!nome || typeof nome !== 'string' || nome.trim() === '') {
-            newErrors.nome = 'O nome é obrigatório.';
+        if (!name || typeof name !== 'string' || name.trim() === '') {
+            newErrors.name = 'O nome é obrigatório.';
         }
     
         if (!email || typeof email !== 'string' || !/\S+@\S+\.\S+/.test(email)) {
             newErrors.email = 'E-mail inválido.';
         }
     
-        if (!senha || typeof senha !== 'string' || senha.length < 8) {
-            newErrors.senha = 'A senha deve ter pelo menos 8 caracteres.';
-        } else if (!/[A-Z]/.test(senha)) {
-            newErrors.senha = 'A senha deve conter pelo menos uma letra maiúscula.';
-        } else if (!/\d/.test(senha)) {
-            newErrors.senha = 'A senha deve conter pelo menos um número.';
-        } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(senha)) {
-            newErrors.senha = 'A senha deve conter pelo menos um caractere especial.';
+        if (!password || typeof password !== 'string' || password.length < 8) {
+            newErrors.password = 'A senha deve ter pelo menos 8 caracteres.';
+        } else if (!/[A-Z]/.test(password)) {
+            newErrors.password = 'A senha deve conter pelo menos uma letra maiúscula.';
+        } else if (!/\d/.test(password)) {
+            newErrors.password = 'A senha deve conter pelo menos um número.';
+        } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            newErrors.password = 'A senha deve conter pelo menos um caractere especial.';
         }
     
         return newErrors;
     };
 
-    const sendDataToAPI = async (formData: { nome: string, email: string, senha: string }) => {
+    const sendDataToAPI = async (formData: { name: string, email: string, password: string }) => {
         try {
             const response = await api.post('usuarios/create', formData);
-            console.log(response.data)
             if (response.status === 200) {
                 Alert.alert('Bem vindo!');
             }
@@ -66,11 +65,11 @@ const MyForm = () => {
             setErrors(validationErrors);
         } else {
             setErrors({}); 
-            if (!nome || !email || !senha) {
+            if (!name || !email || !password) {
                 Alert.alert('Erro', 'Preencha todos os campos corretamente.');
                 return;
             }
-            const formData = { nome, email, senha };
+            const formData = { name, email, password };
             sendDataToAPI(formData);
         }
     };
@@ -82,12 +81,12 @@ const MyForm = () => {
         <View style={styles.container}>
             <Text style={styles.label}>Nome:</Text>
             <TextInput
-                style={[styles.input, errors.nome && styles.errorInput]}
-                value={nome}
+                style={[styles.input, errors.name && styles.errorInput]}
+                value={name}
                 onChangeText={setNome}
                 placeholder="Digite seu nome"
             />
-            {errors.nome && <Text style={styles.errorText}>{errors.nome}</Text>}
+            {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
 
             <Text style={styles.label}>E-mail:</Text>
             <TextInput
@@ -101,13 +100,13 @@ const MyForm = () => {
 
             <Text style={styles.label}>Senha:</Text>
             <TextInput
-                style={[styles.input, errors.senha && styles.errorInput]}
-                value={senha}
+                style={[styles.input, errors.password && styles.errorInput]}
+                value={password}
                 onChangeText={setSenha}
                 placeholder="Digite sua senha"
                 secureTextEntry
             />
-            {errors.senha && <Text style={styles.errorText}>{errors.senha}</Text>}
+            {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
 
             <Button title="Enviar" onPress={handleSubmit} />
         </View>
