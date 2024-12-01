@@ -4,12 +4,12 @@ import { CustomError } from "../interfaces/customError";
 import bcrypt from 'bcryptjs';
 
 async function signIn (email: string, password: string) {
+    console.log(password)
     try {
         const foundUser = await usuarioRepository.findByEmail(email)
         if(!foundUser){
             throw new CustomError('Usuário não encontrado', 404)
         }
-    
         const isPasswordValid = await bcrypt.compare(password, foundUser.senha)
     
         if(!isPasswordValid){

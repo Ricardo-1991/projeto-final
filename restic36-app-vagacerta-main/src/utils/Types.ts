@@ -1,3 +1,5 @@
+import { StackNavigationProp } from "@react-navigation/stack";
+
 export type TaskProps = {
     id: number;
     title: String;
@@ -5,10 +7,15 @@ export type TaskProps = {
     company: String;
 };
 
+// Define as rotas e seus parâmetros
 export type RootStackParamList = {
-    Login: undefined;
+    LoginScreen: undefined;
     FormScreen: undefined;
-    Home: undefined;
-    Profile: undefined;
-    Details: {id: number};
+    HomeScreen: undefined;
+    ProfileScreen: undefined;
+    DetailsScreen: {id: number};
 };
+
+export type RootNavigationProp = StackNavigationProp<RootStackParamList>;
+
+
