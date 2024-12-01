@@ -3,7 +3,17 @@ import { CustomError } from "../interfaces/customError";
 import vagaRepository from '../repositories/vaga.repository';
 
 async function findAll(){
-    return await vagaRepository.findAll();
+    try {
+      const jobs = await vagaRepository.findAll();
+      if(!jobs) {
+        throw new CustomError("Não há vagas para serem listadas.", 404);
+      }
+    }catch(error) {
+      if (error instanceof CustomError) {
+        throw error; 
+      }
+      throw new CustomError("Erro ao buscar vaga", 500);
+    }
 }
 
 async function findById(id: string){
