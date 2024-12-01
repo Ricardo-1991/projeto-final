@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image } from 'react-native';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import api from '../../services/api';
 import axios from 'axios';
 import BGTop from '../../assets/BGTop.png';
 import Logo from '../../components/Logo';
@@ -47,18 +48,12 @@ const MyForm = () => {
         return newErrors;
     };
 
-    // Enviar os dados para a API com axios
     const sendDataToAPI = async (formData: { nome: string, email: string, senha: string }) => {
-        const apiUrl = 'http://10.0.2.2:3000/api/usuarios/create';
-        
-        console.log('Dados enviados para a API:', formData); // Adicionando log aqui
-    
         try {
-            const response = await axios.post(apiUrl, formData);
-            console.log('Resposta da API:', response); // Verifique a resposta
-    
+            const response = await api.post('usuarios/create', formData);
+            console.log(response.data)
             if (response.status === 200) {
-                Alert.alert('Sucesso', 'Dados enviados com sucesso!');
+                Alert.alert('Bem vindo!');
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
