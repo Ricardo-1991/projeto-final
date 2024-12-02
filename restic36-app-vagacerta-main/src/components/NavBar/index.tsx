@@ -10,18 +10,18 @@ interface NavBarAppProps {
 }
 
 export function NavBar({userName, handleOnPress}: NavBarAppProps) {
-    const navigation = useNavigation<RootNavigationProp>()
+    const navigation = useNavigation<RootNavigationProp>();
     return (
-        <NavBarApp>
-          <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
-            <Text>Bem vindo, {userName}!</Text>
-          </TouchableOpacity>
-            <Button 
-                  title="logout"
-                  variant="primary"
-                  noSpacing
-                  onPress={handleOnPress}
-                />
-          </NavBarApp>
+      <NavBarApp>
+        <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
+          <Text style={{fontWeight: 'bold'}}>Bem-vindo, {userName}! (Editar Perfil)</Text>
+        </TouchableOpacity>
+        <Button
+          title="logout"
+          variant="primary"
+          noSpacing
+          onPress={handleOnPress}
+        />
+      </NavBarApp>
     );
 }

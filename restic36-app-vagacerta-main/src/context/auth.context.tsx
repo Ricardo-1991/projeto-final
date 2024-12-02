@@ -97,7 +97,6 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
       setLoading(true);
       const response = await api.post("/auth", { email, password });
       const { token, user } = response.data;
-      console.log(user)
       setToken(token);
       setUser(user);
 

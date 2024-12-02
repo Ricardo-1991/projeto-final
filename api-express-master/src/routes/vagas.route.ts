@@ -5,13 +5,13 @@ import {z} from 'zod';
 import vagasController from '../controller/vaga.controller';
 import {validator} from '../middlewares/validator'
 
-const statusEnum = z.enum(["Aberto", "Fechado"]);
+const statusEnum = z.enum(["Aberta", "Fechada"]);
 
 const jobSchema = z.object({
     titulo: z.string().min(2, {message: "O título precisa ter pelo menos 2 caracteres"}),
     descricao: z.string().min(10, {message: "O título precisa ter pelo menos 10 caracteres"}),
     dataCadastro: z.string().min(10, {message: "A data precisa estar no formato dd/mm/aaaa"}),
-    telefone: z.string().min(11, {message: "O telefone precisa ter pelo menos 11 caracteres"}),
+    telefone: z.string().min(11, {message: "O telefone precisa ter pelo menos 12 caracteres"}),
     status: statusEnum,
     empresa: z.string().min(2, {message: "O nome da empresa precisa ter pelo menos 2 caracteres"}),
 })
