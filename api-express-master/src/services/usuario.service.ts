@@ -56,6 +56,12 @@ async function update(id: string, newUser: usuarioDTO) {
         if(!userExists) {
           throw new CustomError("Usuário nao encontrado", 404);
         }
+
+        const isEmailExists = await usuarioRepository.findByEmail(newUser.email);
+        if (isEmailExists) {
+          throw new CustomError("Este email já está em uso no sistema.", 400);
+        }
+      
         userExists.name = newUser.name;
         userExists.email = newUser.email;
         userExists.password = await bcrypt.hash(newUser.password, 10);
