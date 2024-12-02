@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-import sequelize from "../config/database";
+import sequelize from "../config/database"
 import { VagasModel } from "../interfaces/vagas.interface";
 
 const Vaga = sequelize.define<VagasModel>('Vaga', {
@@ -16,8 +16,8 @@ const Vaga = sequelize.define<VagasModel>('Vaga', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  dataCadastro: {
-    type: DataTypes.DATE,
+  data_cadastro: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   telefone: {
@@ -32,6 +32,11 @@ const Vaga = sequelize.define<VagasModel>('Vaga', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-});
+},
+{
+  tableName: "vagas",
+  timestamps: false,
+}
+);
 
 export default Vaga;

@@ -3,23 +3,12 @@ import { CustomError } from "../interfaces/customError";
 import vagaRepository from '../repositories/vaga.repository';
 
 async function findAll(){
-    try {
-      const jobs = await vagaRepository.findAll();
-      if(!jobs) {
-        throw new CustomError("Não há vagas para serem listadas.", 404);
-      }
-    }catch(error) {
-      if (error instanceof CustomError) {
-        throw error; 
-      }
-      throw new CustomError("Erro ao buscar vaga", 500);
-    }
+   return await vagaRepository.findAll();
 }
 
 async function findById(id: string){
     try {
         const foundJob = await vagaRepository.findById(id);
-
         if(!foundJob){
             throw new CustomError("Vaga nao encontrada", 404);
         }
@@ -52,7 +41,7 @@ async function update(id: string, job: vagaDTO) {
         }
         jobExists.titulo = job.titulo;
         jobExists.descricao = job.descricao;
-        jobExists.dataCadastro = job.dataCadastro;
+        jobExists.data_cadastro = job.data_cadastro;
         jobExists.telefone = job.telefone;
         jobExists.status = job.status;
         jobExists.empresa = job.empresa;
