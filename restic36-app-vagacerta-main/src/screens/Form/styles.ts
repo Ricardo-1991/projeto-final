@@ -68,3 +68,28 @@ export const Field = styled.TextInput`
     background-color: ${({theme})=>theme.COLORS.GRAY_01};
     width: 100%;
 `;
+
+export const ButtonText = styled.Text`
+  position: absolute;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  color: ${({theme})=>theme.COLORS.BLUE};
+  border-radius: 8px;
+  padding: 12px;
+  margin: 5px;
+  left: 25px;
+  top: 225px;
+
+  /*font-size: ${({theme})=>theme.FONT_SIZE.SM}px;
+  font-weight: 700;
+  text-align: center;
+  padding: 12px;
+  margin: 5px;
+  background-color: ${({theme})=>theme.COLORS.WHITE};
+  border-radius: 8px;
+  color: ${({theme})=>theme.COLORS.BLUE};
+  margin-top: 10px;
+  left: 10px;*/
+  
+`;

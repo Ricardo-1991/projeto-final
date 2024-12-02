@@ -18,10 +18,13 @@ export const Header = styled.View`
 export const HeaderButtonContainer = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 13px;
 `;
-export const ButtonIcon = styled.View``;
+export const ButtonIcon = styled.View`
+top: 13px;
+`;
 export const ButtonText = styled.Text`
+  top: 13px;
   font-size: ${({theme})=>theme.FONT_SIZE.SM}px;
   font-weight: 700;
   text-align: center;
