@@ -12,9 +12,8 @@ async function findByEmail(email: string) {
   return await Usuario.findOne({ where: { email } });
 }
 
-async function create( nome: string, email: string, senha: string) {
-  console.log(nome, email, senha)
-  return await Usuario.create({ nome, email, senha });
+async function create( name: string, email: string, password: string) {
+  return await Usuario.create({ name, email, password });
 }
 
 async function remove(userExists: any) {

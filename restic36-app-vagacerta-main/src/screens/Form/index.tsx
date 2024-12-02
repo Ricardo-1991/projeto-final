@@ -1,58 +1,38 @@
-import React, { useState } from 'react';
-import { Image } from 'react-native';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import React from 'react';
+import { Image, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button } from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
 import api from '../../services/api';
 import axios from 'axios';
 import BGTop from '../../assets/BGTop.png';
-import {Wrapper, Container} from './styles';
+import { Wrapper, Container } from './styles';
+import { RootNavigationProp } from '../../utils/Types';
+import { useNavigation } from '@react-navigation/native';
 
-interface FormErrors {
-    nome?: string;
-    email?: string;
-    senha?: string;
+interface FormData {
+    name: string;
+    email: string;
+    password: string;
 }
 
 const MyForm = () => {
-    const [nome, setNome] = useState('');
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [errors, setErrors] = useState<FormErrors>({});
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<FormData>();
 
-    const validateFields = () => {
-        const newErrors: FormErrors = {};
-    
-        if (!nome || typeof nome !== 'string' || nome.trim() === '') {
-            newErrors.nome = 'O nome é obrigatório.';
-        }
-    
-        if (!email || typeof email !== 'string' || !/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = 'E-mail inválido.';
-        }
-    
-        if (!senha || typeof senha !== 'string' || senha.length < 8) {
-            newErrors.senha = 'A senha deve ter pelo menos 8 caracteres.';
-        } else if (!/[A-Z]/.test(senha)) {
-            newErrors.senha = 'A senha deve conter pelo menos uma letra maiúscula.';
-        } else if (!/\d/.test(senha)) {
-            newErrors.senha = 'A senha deve conter pelo menos um número.';
-        } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(senha)) {
-            newErrors.senha = 'A senha deve conter pelo menos um caractere especial.';
-        }
-    
-        return newErrors;
-    };
+    const navigation = useNavigation<RootNavigationProp>();
 
-    const sendDataToAPI = async (formData: { nome: string, email: string, senha: string }) => {
+    const onSubmit = async (data: FormData) => {
         try {
-            const response = await api.post('usuarios/create', formData);
-            console.log(response.data)
-            if (response.status === 200) {
-                Alert.alert('Bem vindo!');
-            }
+            await api.post('usuarios/create', data);
+            Alert.alert('Cadastro realizado com sucesso!');
+            navigation.navigate('LoginScreen');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
-                    Alert.alert(`${error.response.data.message || 'Verifique os dados enviados.'}`);
+                    Alert.alert('Erro', error.response.data.message || 'Verifique os dados enviados.');
                 } else {
                     Alert.alert('Erro', error.message || 'Ocorreu um erro ao enviar os dados.');
                 }
@@ -60,58 +40,87 @@ const MyForm = () => {
         }
     };
 
-    const handleSubmit = () => {
-        const validationErrors = validateFields();
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-        } else {
-            setErrors({}); 
-            if (!nome || !email || !senha) {
-                Alert.alert('Erro', 'Preencha todos os campos corretamente.');
-                return;
-            }
-            const formData = { nome, email, senha };
-            sendDataToAPI(formData);
-        }
-    };
-
     return (
-      <Wrapper>
-      <Image source={BGTop} />
-      <Container>
-        <View style={styles.container}>
-            <Text style={styles.label}>Nome:</Text>
-            <TextInput
-                style={[styles.input, errors.nome && styles.errorInput]}
-                value={nome}
-                onChangeText={setNome}
-                placeholder="Digite seu nome"
-            />
-            {errors.nome && <Text style={styles.errorText}>{errors.nome}</Text>}
+        <Wrapper>
+            <Image source={BGTop} />
+            <Container>
+                <View style={styles.container}>
+                    <Text style={styles.label}>Nome:</Text>
+                    <Controller
+                        control={control}
+                        name="name"
+                        rules={{
+                            required: 'O nome é obrigatório.',
+                            validate: (value) => value.trim() !== '' || 'O nome não pode estar vazio.',
+                        }}
+                        render={({ field: { onChange, value } }) => (
+                            <TextInput
+                                style={[styles.input, errors.name && styles.errorInput]}
+                                onChangeText={onChange}
+                                value={value}
+                                placeholder="Digite seu nome"
+                            />
+                        )}
+                    />
+                    {errors.name && <Text style={styles.errorText}>{errors.name.message}</Text>}
 
-            <Text style={styles.label}>E-mail:</Text>
-            <TextInput
-                style={[styles.input, errors.email && styles.errorInput]}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Digite seu e-mail"
-                keyboardType="email-address"
-            />
-            {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+                    <Text style={styles.label}>E-mail:</Text>
+                    <Controller
+                        control={control}
+                        name="email"
+                        rules={{
+                            required: 'O e-mail é obrigatório.',
+                            pattern: {
+                                value: /\S+@\S+\.\S+/,
+                                message: 'E-mail inválido.',
+                            },
+                        }}
+                        render={({ field: { onChange, value } }) => (
+                            <TextInput
+                                style={[styles.input, errors.email && styles.errorInput]}
+                                onChangeText={onChange}
+                                value={value}
+                                placeholder="Digite seu e-mail"
+                                keyboardType="email-address"
+                            />
+                        )}
+                    />
+                    {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
 
-            <Text style={styles.label}>Senha:</Text>
-            <TextInput
-                style={[styles.input, errors.senha && styles.errorInput]}
-                value={senha}
-                onChangeText={setSenha}
-                placeholder="Digite sua senha"
-                secureTextEntry
-            />
-            {errors.senha && <Text style={styles.errorText}>{errors.senha}</Text>}
-
-            <Button title="Enviar" onPress={handleSubmit} />
-        </View>
-        </Container>
+                    <Text style={styles.label}>Senha:</Text>
+                    <Controller
+                        control={control}
+                        name="password"
+                        rules={{
+                            required: 'A senha é obrigatória.',
+                            minLength: {
+                                value: 8,
+                                message: 'A senha deve ter pelo menos 8 caracteres.',
+                            },
+                            validate: {
+                                hasUpperCase: (value) =>
+                                    /[A-Z]/.test(value) || 'A senha deve conter pelo menos uma letra maiúscula.',
+                                hasNumber: (value) =>
+                                    /\d/.test(value) || 'A senha deve conter pelo menos um número.',
+                                hasSpecialChar: (value) =>
+                                    /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
+                                    'A senha deve conter pelo menos um caractere especial.',
+                            },
+                        }}
+                        render={({ field: { onChange, value } }) => (
+                            <TextInput
+                                style={[styles.input, errors.password && styles.errorInput]}
+                                onChangeText={onChange}
+                                value={value}
+                                placeholder="Digite sua senha"
+                                secureTextEntry
+                            />
+                        )}
+                    />
+                    {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
+                    <Button title="Enviar" onPress={handleSubmit(onSubmit)} />
+                </View>
+            </Container>
         </Wrapper>
     );
 };

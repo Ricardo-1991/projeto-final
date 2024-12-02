@@ -6,8 +6,10 @@ import { Alert } from "react-native";
 import api from "../services/api";
 
 interface UserProps {
-  nome: string;
+  id?: string;
+  name: string;
   email: string;
+  password?: string;
 }
 
 interface AuthError {
@@ -20,6 +22,7 @@ interface AuthContextData {
   user: UserProps | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  update: (updatedUser: UserProps) => Promise<void>;
   isAuthenticated: boolean;
   loading: boolean;
   error: AuthError | null;
@@ -48,6 +51,11 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
     await AsyncStorage.removeItem("@user_data");
     delete api.defaults.headers.common["Authorization"];
   }, []);
+
+  const update = async (updatedUser: UserProps) => {
+    setUser(updatedUser);
+    await AsyncStorage.setItem("@user_data", JSON.stringify(updatedUser));
+  };
 
   const isTokenExpired = useCallback((token: string): boolean => {
     try {
@@ -88,7 +96,6 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
     try {
       setLoading(true);
       const response = await api.post("/auth", { email, password });
-      console.log(response)
       const { token, user } = response.data;
       setToken(token);
       setUser(user);
@@ -153,7 +160,7 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
   }
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, isAuthenticated, error, loading }}>
+    <AuthContext.Provider value={{ token, user, login, logout, update, isAuthenticated, error, loading }}>
       {children}
     </AuthContext.Provider>
   );

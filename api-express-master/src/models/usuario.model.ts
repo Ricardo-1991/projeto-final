@@ -12,7 +12,7 @@ const Usuario =
       autoIncrement: true,
       primaryKey: true,
     },
-    nome: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -21,7 +21,7 @@ const Usuario =
       allowNull: false,
       unique: true,
     },
-    senha: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
     },

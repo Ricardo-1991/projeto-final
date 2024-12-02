@@ -13,7 +13,7 @@ export type RootStackParamList = {
     FormScreen: undefined;
     HomeScreen: undefined;
     ProfileScreen: undefined;
-    DetailsScreen: {id: number};
+    DetailsScreen: {id: string};
 };
 
 export type RootNavigationProp = StackNavigationProp<RootStackParamList>;

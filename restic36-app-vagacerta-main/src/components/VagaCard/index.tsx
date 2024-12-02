@@ -4,11 +4,14 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Container, Content, OpenButton, Title, Data, Company } from './styles';
 import { Feather } from '@expo/vector-icons';
 
-import { RootStackParamList } from '../../utils/Types';
+import { RootNavigationProp, RootStackParamList } from '../../utils/Types';
 
 interface Data{
-    id: number;
+    id: string;
     title: string;
+    description: string
+    phoneNumber: string;
+    status: string;
     dataCreated: string;
     company: string;
   }
@@ -16,8 +19,8 @@ interface Data{
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
-export default function VagaCard({id, title, dataCreated, company}: Data) {
-    const navigation = useNavigation<Props['navigation']>();
+export default function VagaCard({id, title, dataCreated, company, phoneNumber, status, description}: Data) {
+    const navigation = useNavigation<RootNavigationProp>();
     
     return (
         <Container onPress={() => navigation.navigate('DetailsScreen', { id })}>

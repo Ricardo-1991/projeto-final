@@ -57,3 +57,10 @@ export const Description = styled.Text`
   text-align: left;
   color: ${({theme})=>theme.COLORS.BLACK};
 `;
+
+export const Subtitle = styled.Text`
+  font-size: ${({theme})=>theme.FONT_SIZE.SM}px;
+  font-weight: 700;
+  text-align: left;
+  color: ${({theme})=>theme.COLORS.BLACK};
+`;

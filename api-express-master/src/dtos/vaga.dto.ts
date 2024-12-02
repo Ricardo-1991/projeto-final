@@ -2,7 +2,7 @@ export interface vagaDTO {
     id?: string;
     titulo: string;
     descricao: string;
-    dataCadastro: Date;
+    data_cadastro: Date;
     telefone: string;
     status: string;
     empresa: string;

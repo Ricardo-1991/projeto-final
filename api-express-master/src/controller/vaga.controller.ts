@@ -2,11 +2,10 @@ import {Request, Response, NextFunction} from "express";
 import vagaService from "../services/vaga.service";
 import { CustomError } from "../interfaces/customError";
 
-
 const findAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const jobs = await vagaService.findAll();
-        res.json({ message: 'Listagem de vagas.', jobs });
+        res.json(jobs);
     }catch(error){
         next(error)
     }
@@ -19,7 +18,7 @@ const findById = async (req: Request, res: Response, next: NextFunction) => {
         if (!job) {
             throw new CustomError("Vaga nao encontrada", 404);
         }
-        res.status(200).json({ message: 'Vaga encontrada.', job })
+        res.status(200).json(job)
     }catch(error){
         next(error)
     }
