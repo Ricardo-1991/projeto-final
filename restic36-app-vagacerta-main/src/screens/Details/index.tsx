@@ -126,7 +126,7 @@ export default function Details({ route }: { route: RouteParams }) {
     return (
         <Wrapper>
             <Header>
-                <HeaderButtonContainer onPress={() => navigation.goBack()}>
+                <HeaderButtonContainer onPress={() => navigation.navigate('HomeScreen')}>
                     <ButtonIcon>
                         <Feather
                             size={16}

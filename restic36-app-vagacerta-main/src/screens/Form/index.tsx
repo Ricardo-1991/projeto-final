@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import api from '../../services/api';
 import axios from 'axios';
 import BGTop from '../../assets/BGTop.png';
-import { Wrapper, Container } from './styles';
+import { Wrapper, Container, ButtonText } from './styles';
 import { RootNavigationProp } from '../../utils/Types';
 import { useNavigation } from '@react-navigation/native';
 
@@ -42,8 +42,13 @@ const MyForm = () => {
 
     return (
         <Wrapper>
+            
             <Image source={BGTop} />
+            <ButtonText
+                onPress={() => navigation.navigate('LoginScreen')}
+            >Voltar</ButtonText>
             <Container>
+                
                 <View style={styles.container}>
                     <Text style={styles.label}>Nome:</Text>
                     <Controller
